@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Person {
-  String _name = '';
-  String _lastName = '';
+  String _name;
+  String _lastName;
 
   Person(this._name, this._lastName);
 
@@ -14,14 +14,12 @@ class Person {
 }
 
 void main() {
-  Person person = Person('Danyil', 'Zborovets');
-  runApp(MyApp(person));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final Person person;
 
-  MyApp(this.person);
+  final Person person = Person('Danyil', 'Zborovets');
 
   @override
   Widget build(BuildContext context) {
