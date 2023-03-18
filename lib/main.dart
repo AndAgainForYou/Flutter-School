@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Pages/page_direct.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'Pages/page_home.dart';
 
 class Person {
   String _name;
@@ -16,270 +18,265 @@ class Person {
   set lastName(String lastName) => _lastName = lastName;
 }
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const FirstScreen());
 
-class MyApp extends StatelessWidget {
-
-  final Person person = Person('Danyil', 'Zborovets');
+class FirstScreen extends StatelessWidget {
+  const FirstScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Привіт, світ!',
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Image.asset(
-              'assets/images/Instagram_logo.png', 
-              fit: BoxFit.cover, 
-              height: 35, 
-              color:Colors.white,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
             ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {
-                print("Click on upload button")
-              }, 
-              icon: Icon(Icons.favorite_border) 
-            ),
-            IconButton(
-              padding: EdgeInsets.all(5),
-              onPressed: () => {
-                print("Click on upload button")
-              }, 
-              icon: Icon(Icons.send_outlined)
-            ),
-          ],
+      ),
+      home: MyApp(),
+    );
+  }
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  _MyApp createState() => _MyApp();
+}
+
+class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
+  int _selectedTab = 0;
+  late TabController controller;
+
+  static const List<Widget> _WidgetPages = <Widget>[
+    PageOne(),
+    SingleChildScrollView(child: Text('data2')),
+    SingleChildScrollView(child: Text('data3')),
+    SingleChildScrollView(child: Text('data4')),
+    SingleChildScrollView(child: Text('data5')),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = TabController(
+      length: _WidgetPages.length,
+      vsync: this,
+    );
+
+    controller.addListener(() {
+      setState(() {
+        _selectedTab = controller.index;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.black,
+        appBar: header(),
+        body: TabBarView(
+          controller: controller,
+          children: _WidgetPages,
         ),
-
-
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-               children: <Widget>[
-                SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // Add stories
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0, left: 16.0),
-                      child: Column(children: <Widget>[
-                        Stack(
-                          children: const <Widget>[
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage: AssetImage('assets/images/base_profile.png'),
-                            ),
-                            Positioned(
-                              right: -2,
-                              bottom: -2,
-                              child: CircleAvatar(
-                                radius: 12,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  radius: 10,
-                                  backgroundImage: AssetImage('assets/images/addstory.png'),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5.0),
-                          child: Text('User 1'),
-                        )
-                      ]),
-                    ),
-                    // Stories 1
-                    Padding(
-                          padding: const EdgeInsets.only(top: 17.0, left: 16.0),
-                          child: Column(
-                            children: const <Widget>[
-                              CircleAvatar(
-                                radius: 39,
-                                backgroundImage: AssetImage('assets/images/story_background.jpg'),
-                                child: CircleAvatar(
-                                  radius: 37,
-                                  backgroundColor: Colors.white,
-                                  child: CircleAvatar(
-                                    radius: 35,
-                                    backgroundImage: AssetImage('assets/images/base_profile.png'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3.0),
-                                child: SizedBox(
-                                  child: Center(
-                                    child: Text('User 2'),
-                                  ),
-                                ),
-                              )
-                            ],
-                            
-                          ),
-                        ),
-                        // Stories 2
-                        Padding(
-                          padding: const EdgeInsets.only(top: 17.0, left: 16.0),
-                          child: Column(
-                            children: const <Widget>[
-                                 CircleAvatar(
-                                    radius: 37,
-                                    backgroundImage: AssetImage('assets/images/base_profile.png'),
-                                  ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 6.0),
-                                child: SizedBox(
-                                  child: Center(
-                                    child: Text('User 3'),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        // Stories 3
-                        Padding(
-                          padding: const EdgeInsets.only(top: 17.0, left: 16.0),
-                          child: Column(
-                            children: const <Widget>[
-                                 CircleAvatar(
-                                    radius: 37,
-                                    backgroundImage: AssetImage('assets/images/base_profile.png'),
-                                  ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 6.0),
-                                child: SizedBox(
-                                  child: Center(
-                                    child: Text('User 4'),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        // Stories 4
-                        Padding(
-                          padding: const EdgeInsets.only(top: 17.0, left: 16.0),
-                          child: Column(
-                            children: const <Widget>[
-                                 CircleAvatar(
-                                    radius: 37,
-                                    backgroundImage: AssetImage('assets/images/base_profile.png'),
-                                  ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 6.0),
-                                child: SizedBox(
-                                  child: Center(
-                                    child: Text('User 5'),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                  ],
+        drawer: Drawer(
+          backgroundColor: const Color(0xFF262626),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.settings,
+                  color: Colors.white,
                 ),
+                title: const Text(
+                  "Settings",
+                  style: TextStyle(color: Colors.white),
                 ),
-                Column(
-                  children: <Widget>[
-                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircleAvatar(
-                              radius: 24,
-                              backgroundImage: AssetImage('assets/images/story_background.jpg'),
-                              child: CircleAvatar(
-                                radius: 22,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: AssetImage('assets/images/base_profile.png'),
-                                )
-                              )
-                            ),
-                          ),
-                            Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const <Widget>[
-                              Text(
-                                'User',
-                                style: TextStyle(
-                                  fontSize: 10
-                                ),
-                              ),
-                              Text('data')
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          '...',
-                          style: TextStyle(
-                            fontSize: 30
-                          ),
-                          ),
-                      )
-                    ],
-                   ),
-                   Image.asset('assets/images/story_background.jpg')
-                  ],
+                onTap: () {},
+              ),
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.settings_backup_restore_outlined,
+                  color: Colors.white,
                 ),
-               ],
-            ),
+                title: const Text(
+                  "My activity",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.archive_outlined,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  "Archive",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.qr_code,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  "QR-code",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.save_alt_outlined,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  "Saved",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.star,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  "Best friends",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+              ListTile(
+                hoverColor: const Color(0xFF262626),
+                leading: const Icon(
+                  Icons.star_border_outlined,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  "Favorites",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {},
+              ),
+            ],
           ),
         ),
-
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => {},
+          backgroundColor: Colors.black,
+          child: const Icon(Icons.add_a_photo),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.black
-            ),
+                icon: ImageIcon(
+                  AssetImage('assets/images/home.png'),
+                  size: 27,
+                ),
+                label: 'Home',
+                backgroundColor: Colors.black),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Home',
-              backgroundColor: Colors.black
-            ),
+                icon: ImageIcon(
+                  AssetImage('assets/images/search.png'),
+                  size: 27,
+                ),
+                label: 'Home',
+                backgroundColor: Colors.black),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_box_outlined),
-              label: 'Home',
-              backgroundColor: Colors.black
-            ),
+                icon: ImageIcon(
+                  AssetImage('assets/images/post.png'),
+                  size: 27,
+                ),
+                label: 'Home',
+                backgroundColor: Colors.black),
             BottomNavigationBarItem(
-              icon: Icon(Icons.play_circle_outline),
-              label: 'Home',
-              backgroundColor: Colors.black
-            ),
+                icon: ImageIcon(
+                  AssetImage('assets/images/reels.png'),
+                  size: 27,
+                ),
+                label: 'Home',
+                backgroundColor: Colors.black),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
-              label: 'Home',
-              backgroundColor: Colors.black
-            ),
+                icon: ImageIcon(
+                  AssetImage('assets/images/account.png'),
+                  size: 27,
+                ),
+                label: 'Home',
+                backgroundColor: Colors.black),
           ],
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: Colors.white,
+          selectedItemColor: Colors.red,
           unselectedItemColor: Colors.white,
           backgroundColor: Colors.black,
           selectedFontSize: 0,
           type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedTab, //New
+          onTap: (int index) => {
+            setState(() {
+              _selectedTab = index;
+              controller.animateTo(index);
+            })
+          },
         ),
-      ),
+      
+    );
+  }
 
+  AppBar header() {
+    return AppBar(
+      backgroundColor: Colors.black,
+      title: Image.asset(
+        'assets/images/Instagram_logo.png',
+        fit: BoxFit.cover,
+        height: 35,
+        color: Colors.white,
+      ),
+      actions: <Widget>[
+        IconButton(
+          onPressed: () => {print("Click on upload button")},
+          icon: const ImageIcon(
+            AssetImage('assets/images/heart.png'),
+            size: 27,
+          ),
+        ),
+        IconButton(
+          padding: const EdgeInsets.all(5),
+          onPressed: () => {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const DirectPage()))
+          },
+          icon: const Hero(
+            tag: 'direct',
+            child: ImageIcon(
+              AssetImage('assets/images/sent.png'),
+              size: 22,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
+
