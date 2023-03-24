@@ -5,19 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'Pages/page_home.dart';
 
-class Person {
-  String _name;
-  String _lastName;
-
-  Person(this._name, this._lastName);
-
-  String get name => _name;
-  String get lastName => _lastName;
-
-  set name(String name) => _name = name;
-  set lastName(String lastName) => _lastName = lastName;
-}
-
 void main() => runApp(const FirstScreen());
 
 class FirstScreen extends StatelessWidget {
@@ -35,7 +22,7 @@ class FirstScreen extends StatelessWidget {
               displayColor: Colors.white,
             ),
       ),
-      home: MyApp(),
+      home: const MyApp(),
     );
   }
 }
@@ -49,22 +36,36 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
   int _selectedTab = 0;
+  bool _isClicked = false;
+  bool _isSaved = false;
   late TabController controller;
 
-  static const List<Widget> _WidgetPages = <Widget>[
-    PageOne(),
-    SingleChildScrollView(child: Text('data2')),
-    SingleChildScrollView(child: Text('data3')),
-    SingleChildScrollView(child: Text('data4')),
-    SingleChildScrollView(child: Text('data5')),
-  ];
+  void setLike() {
+    setState(() {
+      _isClicked = !_isClicked;
+    });
+  }
+
+  void setSave() {
+    setState(() {
+      _isSaved = !_isSaved;
+    });
+  }
+
+  List<Widget> get _widgetPages => [
+        PageOne(isClicked: _isClicked, isSaved: _isSaved, setLike: setLike, setSave: setSave),
+        SingleChildScrollView(child: Text('data2')),
+        SingleChildScrollView(child: Text('data3')),
+        SingleChildScrollView(child: Text('data4')),
+        SingleChildScrollView(child: Text('data5')),
+      ];
 
   @override
   void initState() {
     super.initState();
 
     controller = TabController(
-      length: _WidgetPages.length,
+      length: _widgetPages.length,
       vsync: this,
     );
 
@@ -84,167 +85,173 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: header(),
-        body: TabBarView(
-          controller: controller,
-          children: _WidgetPages,
-        ),
-        drawer: Drawer(
-          backgroundColor: const Color(0xFF262626),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.settings,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "Settings",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+      backgroundColor: Colors.black,
+      appBar: const AppHeader(),
+      body: TabBarView(
+        controller: controller,
+        children: _widgetPages,
+      ),
+      drawer: Drawer(
+        backgroundColor: const Color(0xFF262626),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.settings,
+                color: Colors.white,
               ),
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.settings_backup_restore_outlined,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "My activity",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+              title: const Text(
+                "Settings",
+                style: TextStyle(color: Colors.white),
               ),
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.archive_outlined,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "Archive",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+              onTap: () {},
+            ),
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.settings_backup_restore_outlined,
+                color: Colors.white,
               ),
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.qr_code,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "QR-code",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+              title: const Text(
+                "My activity",
+                style: TextStyle(color: Colors.white),
               ),
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.save_alt_outlined,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "Saved",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+              onTap: () {},
+            ),
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.archive_outlined,
+                color: Colors.white,
               ),
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.star,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "Best friends",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+              title: const Text(
+                "Archive",
+                style: TextStyle(color: Colors.white),
               ),
-              ListTile(
-                hoverColor: const Color(0xFF262626),
-                leading: const Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.white,
-                ),
-                title: const Text(
-                  "Favorites",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onTap: () {},
+              onTap: () {},
+            ),
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.qr_code,
+                color: Colors.white,
               ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => {},
-          backgroundColor: Colors.black,
-          child: const Icon(Icons.add_a_photo),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage('assets/images/home.png'),
-                  size: 27,
-                ),
-                label: 'Home',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage('assets/images/search.png'),
-                  size: 27,
-                ),
-                label: 'Home',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage('assets/images/post.png'),
-                  size: 27,
-                ),
-                label: 'Home',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage('assets/images/reels.png'),
-                  size: 27,
-                ),
-                label: 'Home',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage('assets/images/account.png'),
-                  size: 27,
-                ),
-                label: 'Home',
-                backgroundColor: Colors.black),
+              title: const Text(
+                "QR-code",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.save_alt_outlined,
+                color: Colors.white,
+              ),
+              title: const Text(
+                "Saved",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.star,
+                color: Colors.white,
+              ),
+              title: const Text(
+                "Best friends",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              hoverColor: const Color(0xFF262626),
+              leading: const Icon(
+                Icons.star_border_outlined,
+                color: Colors.white,
+              ),
+              title: const Text(
+                "Favorites",
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {},
+            ),
           ],
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedItemColor: Colors.red,
-          unselectedItemColor: Colors.white,
-          backgroundColor: Colors.black,
-          selectedFontSize: 0,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedTab, //New
-          onTap: (int index) => {
-            setState(() {
-              _selectedTab = index;
-              controller.animateTo(index);
-            })
-          },
         ),
-      
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('assets/images/home.png'),
+                size: 27,
+              ),
+              label: 'Home',
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('assets/images/search.png'),
+                size: 27,
+              ),
+              label: 'Home',
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('assets/images/post.png'),
+                size: 27,
+              ),
+              label: 'Home',
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('assets/images/reels.png'),
+                size: 27,
+              ),
+              label: 'Home',
+              backgroundColor: Colors.black),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('assets/images/account.png'),
+                size: 27,
+              ),
+              label: 'Home',
+              backgroundColor: Colors.black),
+        ],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.black,
+        selectedFontSize: 0,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedTab, //New
+        onTap: (int index) => {
+          setState(() {
+            _selectedTab = index;
+            controller.animateTo(index);
+          })
+        },
+      ),
     );
   }
+}
 
-  AppBar header() {
+class AppHeader extends StatefulWidget with PreferredSizeWidget {
+  const AppHeader({super.key});
+
+  @override
+  State<AppHeader> createState() => _AppHeaderState();
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _AppHeaderState extends State<AppHeader> {
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.black,
       title: Image.asset(
@@ -279,4 +286,3 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
     );
   }
 }
-

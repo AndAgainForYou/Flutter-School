@@ -3,7 +3,23 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class PageOne extends StatelessWidget {
-  const PageOne({super.key});
+  final bool isClicked;
+  final bool isSaved;
+  final Function setLike;
+  final Function setSave;
+
+  const PageOne(
+      {Key? key,
+      required this.isClicked,
+      required this.setLike,
+      required this.isSaved,
+      required this.setSave})
+      : super(key: key);
+
+  bool get getIsClicked => isClicked;
+  bool get getIsSaved => isSaved;
+
+  //get isClicked => null;
 
   @override
   Widget build(BuildContext context) {
@@ -218,26 +234,34 @@ class PageOne extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: Row(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: 8.0, top: 8.0, right: 4.0),
-                        child: ImageIcon(
-                          AssetImage('assets/images/heart.png'),
-                          color: Colors.white,
-                          size: 27,
+                        padding: const EdgeInsets.only( top: 8.0),
+                        child: IconButton(
+                          icon: getIsClicked
+                              ? Image.asset(
+                                  'assets/images/heart.png',
+                                  color: Colors.white,
+                                )
+                              : Image.asset(
+                                  'assets/images/heart_red.png',
+                                ),
+                          onPressed: () {
+                            setLike();
+                          },
+                          iconSize: 27,
                         ),
                       ),
-                      Padding(
+                      const Padding(
                         padding:
-                            EdgeInsets.only(left: 8.0, top: 8.0, right: 4.0),
+                            EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                         child: ImageIcon(
                           AssetImage('assets/images/comment.png'),
                           color: Colors.white,
                           size: 27,
                         ),
                       ),
-                      Padding(
+                      const Padding(
                         padding:
                             EdgeInsets.only(left: 8.0, top: 8.0, right: 4.0),
                         child: ImageIcon(
@@ -249,13 +273,23 @@ class PageOne extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, right: 8.0),
-                  child: ImageIcon(
-                          AssetImage('assets/images/bookmark.png'),
-                          color: Colors.white,
-                          size: 27,
-                        ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0,),
+                  child: IconButton(
+                    icon: getIsSaved
+                        ? Image.asset(
+                            'assets/images/bookmark_filed.png',
+                            color: Colors.white,
+                          )
+                        : Image.asset(
+                            'assets/images/bookmark.png',
+                            color: Colors.white,
+                          ),
+                    onPressed: () {
+                      setSave();
+                    },
+                    iconSize: 27,
+                  ),
                 ),
               ],
             ),
@@ -263,8 +297,8 @@ class PageOne extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8.0, left: 10.0),
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
-                  '420 likes',
+                child: Text(
+                  getIsClicked ? '420 likes' : '421 likes',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
