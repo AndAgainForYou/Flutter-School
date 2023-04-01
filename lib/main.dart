@@ -1,9 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Pages/page_direct.dart';
+import 'package:flutter_application_1/models/data.dart';
+import 'package:flutter_application_1/ui/bottom_bar.dart';
+import 'package:flutter_application_1/ui/pages/pageDirect/page_direct.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-import 'Pages/page_home.dart';
+import 'ui/pages/pageHome/page_home.dart';
 
 void main() => runApp(const FirstScreen());
 
@@ -12,17 +15,20 @@ class FirstScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Привіт, світ!',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.white,
-              displayColor: Colors.white,
-            ),
+    return ChangeNotifierProvider<Data>(
+      create: (context) => Data(),
+      child: MaterialApp(
+        title: 'Привіт, світ!',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.white,
+                displayColor: Colors.white,
+              ),
+        ),
+        home: const MyApp(),
       ),
-      home: const MyApp(),
     );
   }
 }
@@ -36,29 +42,23 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
   int _selectedTab = 0;
-  bool _isClicked = false;
-  bool _isSaved = false;
+
   late TabController controller;
 
-  void setLike() {
-    setState(() {
-      _isClicked = !_isClicked;
-    });
-  }
-
-  void setSave() {
-    setState(() {
-      _isSaved = !_isSaved;
-    });
-  }
-
   List<Widget> get _widgetPages => [
-        PageOne(isClicked: _isClicked, isSaved: _isSaved, setLike: setLike, setSave: setSave),
+        PageOne(),
         SingleChildScrollView(child: Text('data2')),
         SingleChildScrollView(child: Text('data3')),
         SingleChildScrollView(child: Text('data4')),
         SingleChildScrollView(child: Text('data5')),
       ];
+
+  void bottomBarOnTab(index) {
+    setState(() {
+      _selectedTab = index;
+      controller.animateTo(index);
+    });
+  }
 
   @override
   void initState() {
@@ -176,68 +176,17 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
               ),
               title: const Text(
                 "Favorites",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Color.fromARGB(255, 205, 162, 162)),
               ),
               onTap: () {},
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/images/home.png'),
-                size: 27,
-              ),
-              label: 'Home',
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/images/search.png'),
-                size: 27,
-              ),
-              label: 'Home',
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/images/post.png'),
-                size: 27,
-              ),
-              label: 'Home',
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/images/reels.png'),
-                size: 27,
-              ),
-              label: 'Home',
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/images/account.png'),
-                size: 27,
-              ),
-              label: 'Home',
-              backgroundColor: Colors.black),
-        ],
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.white,
-        backgroundColor: Colors.black,
-        selectedFontSize: 0,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedTab, //New
-        onTap: (int index) => {
-          setState(() {
-            _selectedTab = index;
-            controller.animateTo(index);
-          })
-        },
-      ),
+      bottomNavigationBar: BottomMenu(bottomBarOnTab: bottomBarOnTab, selectedTab: _selectedTab),
     );
   }
+
 }
 
 class AppHeader extends StatefulWidget with PreferredSizeWidget {
