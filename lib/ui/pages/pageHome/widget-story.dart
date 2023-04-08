@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/ui/pages/pageHome/page_home.dart';
+import 'package:provider/provider.dart';
 
+import '../../../models/data_provider.dart';
 import '../widget-hero.dart';
 
 class StoryWidget extends StatelessWidget {
@@ -17,6 +19,7 @@ class StoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<Data>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 17.0, left: 16.0),
       child: GestureDetector(
@@ -32,10 +35,10 @@ class StoryWidget extends StatelessWidget {
                 ? CircleAvatar(
                     radius: 39,
                     backgroundImage:
-                        AssetImage('assets/images/story_background.jpg'),
+                        const AssetImage('assets/images/story_background.jpg'),
                     child: CircleAvatar(
                       radius: 37,
-                      backgroundColor: Colors.black,
+                      backgroundColor: themeModel.isDarkTheme ? Color(0xFF424242) : Colors.white,
                       child: Hero(
                         tag: isName,
                         child: const CircleAvatar(

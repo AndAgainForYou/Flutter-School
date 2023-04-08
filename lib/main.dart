@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/data.dart';
+import 'package:flutter_application_1/models/data_provider.dart';
 import 'package:flutter_application_1/ui/bottom_bar.dart';
 import 'package:flutter_application_1/ui/pages/pageDirect/page_direct.dart';
+import 'package:flutter_application_1/ui/pages/pagePhotos/page_photos.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -15,21 +16,24 @@ class FirstScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Data>(
-      create: (context) => Data(),
-      child: MaterialApp(
-        title: 'Привіт, світ!',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          textTheme: Theme.of(context).textTheme.apply(
-                bodyColor: Colors.white,
-                displayColor: Colors.white,
+    return ChangeNotifierProvider(
+        //provider
+        create: (_) => Data(),
+        child: Consumer<Data>(
+          builder: (context, model, _) => MaterialApp(
+            title: 'Привіт, світ!',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              brightness:
+                  model.isDarkTheme ? Brightness.dark : Brightness.light,
+              iconTheme: IconThemeData(
+                color: model.isDarkTheme ? Colors.white : Color(0xFF424242),
               ),
-        ),
-        home: const MyApp(),
-      ),
-    );
+              // textTheme: TextTheme(),
+            ),
+            home: const MyApp(),
+          ),
+        ));
   }
 }
 
@@ -47,7 +51,7 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
 
   List<Widget> get _widgetPages => [
         PageOne(),
-        SingleChildScrollView(child: Text('data2')),
+        PagePhotos(),
         SingleChildScrollView(child: Text('data3')),
         SingleChildScrollView(child: Text('data4')),
         SingleChildScrollView(child: Text('data5')),
@@ -84,8 +88,8 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<Data>(context);
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: const AppHeader(),
       body: TabBarView(
         controller: controller,
@@ -96,6 +100,16 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            ListTile(
+              title: const Text(
+                'Theme color',
+                style: TextStyle(color: Colors.white),
+              ),
+              leading: Switch(
+                value: themeModel.isDarkTheme,
+                onChanged: (_) => themeModel.toggleTheme(),
+              ),
+            ),
             ListTile(
               hoverColor: const Color(0xFF262626),
               leading: const Icon(
@@ -176,17 +190,17 @@ class _MyApp extends State<MyApp> with SingleTickerProviderStateMixin {
               ),
               title: const Text(
                 "Favorites",
-                style: TextStyle(color: Color.fromARGB(255, 205, 162, 162)),
+                style: TextStyle(color: Colors.white),
               ),
               onTap: () {},
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomMenu(bottomBarOnTab: bottomBarOnTab, selectedTab: _selectedTab),
+      bottomNavigationBar:
+          BottomMenu(bottomBarOnTab: bottomBarOnTab, selectedTab: _selectedTab),
     );
   }
-
 }
 
 class AppHeader extends StatefulWidget with PreferredSizeWidget {
@@ -201,13 +215,18 @@ class AppHeader extends StatefulWidget with PreferredSizeWidget {
 class _AppHeaderState extends State<AppHeader> {
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<Data>(context);
     return AppBar(
-      backgroundColor: Colors.black,
+      iconTheme: IconThemeData(
+        color: themeModel.isDarkTheme ? Colors.white : Color(0xFF424242),
+      ),
+      backgroundColor:
+          themeModel.isDarkTheme ? const Color(0xFF424242) : Colors.white,
       title: Image.asset(
         'assets/images/Instagram_logo.png',
         fit: BoxFit.cover,
         height: 35,
-        color: Colors.white,
+        color: themeModel.isDarkTheme ? Colors.white : Color(0xFF424242),
       ),
       actions: <Widget>[
         IconButton(
@@ -215,6 +234,7 @@ class _AppHeaderState extends State<AppHeader> {
           icon: const ImageIcon(
             AssetImage('assets/images/heart.png'),
             size: 27,
+            // color: themeModel.isDarkTheme ? Colors.white : Color(0xFF424242),
           ),
         ),
         IconButton(
@@ -228,6 +248,7 @@ class _AppHeaderState extends State<AppHeader> {
             child: ImageIcon(
               AssetImage('assets/images/sent.png'),
               size: 22,
+              //   color: themeModel.isDarkTheme ? Colors.white : Color(0xFF424242),
             ),
           ),
         ),

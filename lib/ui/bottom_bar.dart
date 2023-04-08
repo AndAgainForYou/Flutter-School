@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 
-import '../models/data.dart';
+import '../models/data_provider.dart';
 
 class BottomMenu extends StatelessWidget {
   final Function bottomBarOnTab;
@@ -59,8 +59,6 @@ class BottomMenu extends StatelessWidget {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       selectedItemColor: Colors.red,
-      unselectedItemColor: Colors.white,
-      backgroundColor: Colors.black,
       selectedFontSize: 0,
       type: BottomNavigationBarType.fixed,
       currentIndex: getSelectedTab, //New

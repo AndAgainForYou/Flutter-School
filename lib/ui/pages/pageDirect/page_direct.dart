@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_1/models/data.dart';
+import 'package:flutter_application_1/models/data_provider.dart';
 import 'package:provider/provider.dart';
 
 class DirectPage extends StatelessWidget {
@@ -9,9 +9,11 @@ class DirectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<Data>(context);
     return Consumer<Data>(builder: (context, data, _) {
+      //consumer
       return Scaffold(
-        backgroundColor: Colors.black,
+        //backgroundColor: Colors.black,
         appBar: const AppHeader(),
         body: SingleChildScrollView(
           child: Column(
@@ -107,16 +109,18 @@ class DirectPage extends StatelessWidget {
                     Container(
                       child: Row(
                         children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10.0),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
                             child: CircleAvatar(
                                 radius: 30,
-                                backgroundImage: AssetImage(
+                                backgroundImage: const AssetImage(
                                     'assets/images/story_background.jpg'),
                                 child: CircleAvatar(
                                   radius: 28,
-                                  backgroundColor: Colors.black,
-                                  child: CircleAvatar(
+                                  backgroundColor: themeModel.isDarkTheme
+                                      ? const Color(0xFF424242)
+                                      : Colors.white,
+                                  child: const CircleAvatar(
                                     radius: 26,
                                     backgroundImage: AssetImage(
                                         'assets/images/base_profile.png'),
@@ -162,12 +166,14 @@ class DirectPage extends StatelessWidget {
                     Container(
                       child: Row(
                         children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.only(left: 12.0),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
                             child: CircleAvatar(
                               radius: 28,
-                              backgroundColor: Colors.black,
-                              child: CircleAvatar(
+                              backgroundColor: themeModel.isDarkTheme
+                                  ? const Color(0xFF424242)
+                                  : Colors.white,
+                              child: const CircleAvatar(
                                 radius: 26,
                                 backgroundImage: AssetImage(
                                     'assets/images/base_profile.png'),
@@ -224,10 +230,19 @@ class AppHeader extends StatefulWidget with PreferredSizeWidget {
 class _AppHeaderState extends State<AppHeader> {
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<Data>(context);
     return AppBar(
-      backgroundColor: Colors.black,
-      title: const Text(
+      iconTheme: IconThemeData(
+        color: themeModel.isDarkTheme ? Colors.white : const Color(0xFF424242),
+      ),
+      backgroundColor:
+          themeModel.isDarkTheme ? const Color(0xFF424242) : Colors.white,
+      title: Text(
         'Daniil_Zborovets',
+        style: TextStyle(
+          color:
+              themeModel.isDarkTheme ? Colors.white : const Color(0xFF424242),
+        ),
       ),
       actions: <Widget>[
         IconButton(

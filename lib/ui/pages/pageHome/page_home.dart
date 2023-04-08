@@ -5,7 +5,7 @@ import 'package:flutter_application_1/ui/pages/pageHome/widget-post.dart';
 import 'package:flutter_application_1/ui/pages/pageHome/widget-story.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/data.dart';
+import '../../../models/data_provider.dart';
 import '../widget-hero.dart';
 
 class PageOne extends StatelessWidget {
@@ -14,6 +14,7 @@ class PageOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -39,7 +40,7 @@ class PageOne extends StatelessWidget {
                             bottom: -2,
                             child: CircleAvatar(
                               radius: 12,
-                              backgroundColor: Colors.black,
+                             // backgroundColor: Colors.black,
                               child: CircleAvatar(
                                 radius: 10,
                                 backgroundImage:
@@ -71,6 +72,7 @@ class PageOne extends StatelessWidget {
               ),
             ),
             const HomePost(),
+          
           ],
         ),
       ),
