@@ -1,23 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/models/data_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/data_provider.dart';
-
-class MyHero extends StatelessWidget {
-  final String name;
-
-  const MyHero({super.key, required this.name});
-
-  String get isName => name;
-
+class BestFriends extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<Data>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'New Screen',
+          'Best Friends',
           style: TextStyle(
               color: themeModel.isDarkTheme
                   ? Colors.white
@@ -30,10 +23,7 @@ class MyHero extends StatelessWidget {
               themeModel.isDarkTheme ? Colors.white : const Color(0xFF424242),
         ),
       ),
-      body: Center(
-        child: Hero(
-            tag: name, child: Image.asset('assets/images/base_profile.png')),
-      ),
+      body: Text('bestFriends'),
     );
   }
 }

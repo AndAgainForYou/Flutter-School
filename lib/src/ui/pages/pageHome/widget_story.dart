@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_1/ui/pages/pageHome/page_home.dart';
+import 'package:flutter_application_1/src/ui/pages/pageHome/page_home.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/data_provider.dart';
-import '../widget-hero.dart';
+import '../widget_hero.dart';
 
 class StoryWidget extends StatelessWidget {
   final String name;

@@ -1,22 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_1/ui/pages/pagePhotos/photo_hero.dart';
+import 'package:flutter_application_1/src/net/photo_repository.dart';
+import 'package:flutter_application_1/src/ui/pages/pagePhotos/photo_hero.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/data_provider.dart';
 
-class PagePhotos extends StatelessWidget {
-  const PagePhotos({super.key});
+class PagePhotos extends StatefulWidget {
+  const PagePhotos({Key? key}) : super(key: key);
+
+  @override
+  State<PagePhotos> createState() => _PagePhotosState();
+}
+
+class _PagePhotosState extends State<PagePhotos> {
+  @override
+  void initState() {
+    super.initState();
+    final photoData = Provider.of<PhotoData>(context, listen: false);
+    if (photoData.randomPhotos.isEmpty) {
+      photoData.fetchRandomPhotos(count: 21);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Consumer<Data>(
+      child: Consumer<PhotoData>(
         builder: (context, provider, child) {
           if (provider.randomPhotos.isEmpty) {
-            provider.fetchRandomPhotos(count: 21);
             return const CircularProgressIndicator();
           } else {
             return GridView.count(
@@ -48,25 +58,3 @@ class PagePhotos extends StatelessWidget {
     );
   }
 }
-
-/* _photoProvider.randomPhotos.isEmpty
-              ? CircularProgressIndicator()
-              : Image.network(_photoProvider.randomPhotos.first['imageUrl']),
-              
-              
-              
-                  children: provider.randomPhotos.map((photo) {
-                    return Center(
-                        child: Row(
-                      children: [
-                        Image.network(
-                          photo['imageUrl'],
-                          height: 200,
-                          width: 200,
-                        ),
-                      ],
-                    ));
-                  }).toList(),
-              
-              
-              */ 

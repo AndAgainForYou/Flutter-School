@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:provider/provider.dart';
 
-import '../models/data_provider.dart';
 
 class BottomMenu extends StatelessWidget {
   final Function bottomBarOnTab;

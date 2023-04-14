@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/data_provider.dart';
-import '../widget-hero.dart';
+import '../widget_hero.dart';
 
 class HomePost extends StatelessWidget {
   const HomePost({super.key});
