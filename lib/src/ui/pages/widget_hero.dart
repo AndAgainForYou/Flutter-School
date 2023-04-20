@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_1/src/models/bloc/data_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../models/data_provider.dart';
 
 class MyHero extends StatelessWidget {
   final String name;
@@ -12,7 +12,7 @@ class MyHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeModel = Provider.of<Data>(context);
+    final themeModel = BlocProvider.of<DataBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(

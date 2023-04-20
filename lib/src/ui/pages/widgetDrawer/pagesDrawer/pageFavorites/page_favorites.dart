@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/models/data_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_1/src/models/bloc/data_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesPage extends StatelessWidget {
   final String title;
@@ -9,12 +9,12 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeModel = Provider.of<Data>(context);
+    final themeModel = BlocProvider.of<DataBloc>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context, 'Goodbye!'); //return message when closing tab
+            Navigator.pop(context, 'Goodbye !'); //return message when closing tab
           },
           icon: const BackButtonIcon(),
         ),

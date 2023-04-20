@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_1/src/ui/pages/pageHome/page_home.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_1/src/models/bloc/data_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/data_provider.dart';
 import '../widget_hero.dart';
 
 class StoryWidget extends StatelessWidget {
@@ -19,7 +15,7 @@ class StoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeModel = Provider.of<Data>(context);
+    final themeModel = BlocProvider.of<DataBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 17.0, left: 16.0),
       child: GestureDetector(

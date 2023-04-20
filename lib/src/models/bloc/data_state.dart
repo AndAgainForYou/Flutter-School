@@ -1,10 +1,21 @@
 part of 'data_bloc.dart';
 
-abstract class DataState extends Equatable {
-  const DataState();
-  
-  @override
-  List<Object> get props => [];
-}
+@immutable
+abstract class DataState {}
 
 class DataInitial extends DataState {}
+
+class ClickedState extends DataState {
+  final bool clicked;
+  ClickedState({required this.clicked});
+}
+
+class SavedState extends DataState {
+  final List<String> savedPhotos;
+  SavedState({required this.savedPhotos});
+}
+
+class ThemeChangedState extends DataState {
+  final bool isDarkTheme;
+  ThemeChangedState({required this.isDarkTheme});
+}

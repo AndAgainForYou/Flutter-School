@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/models/bloc/data_bloc.dart';
 import 'package:flutter_application_1/src/models/data_provider.dart';
 import 'package:flutter_application_1/src/ui/pages/pageDirect/page_direct.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class HomeHeader extends StatefulWidget with PreferredSizeWidget {
@@ -16,7 +18,7 @@ class HomeHeader extends StatefulWidget with PreferredSizeWidget {
 class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
-    final themeModel = Provider.of<Data>(context);
+    final themeModel = BlocProvider.of<DataBloc>(context);
     return AppBar(
       iconTheme: IconThemeData(
         color: themeModel.isDarkTheme ? Colors.white : const Color(0xFF424242),

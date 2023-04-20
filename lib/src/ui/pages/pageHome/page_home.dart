@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/models/bloc/data_bloc.dart';
 import 'package:flutter_application_1/src/models/data_provider.dart';
 import 'package:flutter_application_1/src/ui/pages/pageHome/widget_post.dart';
 import 'package:flutter_application_1/src/ui/pages/pageHome/widget_story.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/src/ui/pages/pageHome/widget_appBar.dart';
 
@@ -14,7 +16,7 @@ class PageOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  //ThemeCubit theme = BlocProvider.of<ThemeCubit>(context, listen: false);
+  final themeModel = BlocProvider.of<DataBloc>(context);
     return Scaffold(
       appBar: const HomeHeader(),
       body: SingleChildScrollView(
@@ -58,7 +60,7 @@ class PageOne extends StatelessWidget {
                         )
                       ]),
                     ),
-                    ...Provider.of<Data>(context)
+                    ...themeModel
                         .usernames
                         .entries
                         .map((MapEntry<String, bool> entry) => Column(
@@ -74,7 +76,7 @@ class PageOne extends StatelessWidget {
                 ),
               ),
               const HomePost(),
-            
+              
             ],
           ),
         ),

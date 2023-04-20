@@ -1,11 +1,25 @@
 part of 'data_bloc.dart';
 
-abstract class DataEvent extends Equatable {
-  const DataEvent();
+@immutable
+abstract class DataEvent {}
+
+class LikeEvent extends DataEvent {}
+
+class SaveEvent extends DataEvent {
+  final String photoUrl;
+  SaveEvent({required this.photoUrl});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [photoUrl];
 }
 
-class CounterIncEvent extends DataEvent{}
-class CounterDecEvent extends DataEvent{}
+class DeletePhotoEvent extends DataEvent {
+  final String photoUrl;
+
+  DeletePhotoEvent({required this.photoUrl});
+
+  @override
+  List<Object> get props => [photoUrl];
+}
+
+class ToggleThemeEvent extends DataEvent {}
